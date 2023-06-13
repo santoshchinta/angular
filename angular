@@ -1,0 +1,86 @@
+<h1>Welcome to my Angular App!</h1>
+<app-player-list></app-player-list>
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-player-list',
+  templateUrl: './player-list.component.html',
+  styleUrls: ['./player-list.component.css']
+})
+export class PlayerListComponent implements OnInit {
+  players: any[] = [];
+
+  constructor() { }
+
+  ngOnInit(): void {
+    // Simulated data
+    this.players = [
+      { name: 'Player 1', rushingYards: 500, touchdownsThrown: 25 },
+      { name: 'Player 2', rushingYards: 300, touchdownsThrown: 15 },
+      { name: 'Player 3', rushingYards: 400, touchdownsThrown: 20 },
+      { name: 'Player 4', rushingYards: 200, touchdownsThrown: 10 },
+      { name: 'Player 5', rushingYards: 100, touchdownsThrown: 5 }
+    ];
+  }
+
+  getMostTouchdownPasses(): any {
+    let mostTouchdownsPlayer = this.players[0];
+    for (let player of this.players) {
+      if (player.touchdownsThrown > mostTouchdownsPlayer.touchdownsThrown) {
+        mostTouchdownsPlayer = player;
+      }
+    }
+    return mostTouchdownsPlayer;
+  }
+
+  getMostRushingYards(): any {
+    let mostRushingYardsPlayer = this.players[0];
+    for (let player of this.players) {
+      if (player.rushingYards > mostRushingYardsPlayer.rushingYards) {
+        mostRushingYardsPlayer = player;
+      }
+    }
+    return mostRushingYardsPlayer;
+  }
+
+  getLeastRushingYards(): any {
+    let leastRushingYardsPlayer = this.players[0];
+    for (let player of this.players) {
+      if (player.rushingYards < leastRushingYardsPlayer.rushingYards) {
+        leastRushingYardsPlayer = player;
+      }
+    }
+    return leastRushingYardsPlayer;
+  }
+
+  getPlayersByFieldGoalsMade(): any[] {
+    return this.players.sort((a, b) => b.madeFieldGoals - a.madeFieldGoals);
+  }
+
+  getPlayerWithMostSacks(): any {
+    let mostSacksPlayer = this.players[0];
+    for (let player of this.players) {
+      if (player.sacks > mostSacksPlayer.sacks) {
+        mostSacksPlayer = player;
+      }
+    }
+    return mostSacksPlayer;
+  }
+}
+<h2>Player List</h2>
+<ul>
+  <li *ngFor="let player of players">{{ player.name }}</li>
+</ul>
+
+<h2>Queries:</h2>
+
+<p>Player with the most touchdown passes: {{ getMostTouchdownPasses().name }}</p>
+<p>Player with the most rushing yards: {{ getMostRushingYards().name }}</p>
+<p>Player with the least rushing yards: {{ getLeastRushingYards().name }}</p>
+
+<h3>List of players sorted by most to fewest field goals made:</h3>
+<ul>
+  <li *ngFor="let player of getPlayersByFieldGoalsMade()">{{ player.name }} - {{ player.madeFieldGoals }} made</li>
+</ul>
+
+<p>Player with the most number of sacks: {{ getPlayerWithMostSacks().name }}</p>
